@@ -1,0 +1,78 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define MAX_SIZE 100
+
+int stack[MAX_SIZE];
+int top = -1;
+
+void push(int element) {
+    if (top == MAX_SIZE - 1) {
+        printf("Stack overflow, aborting..");
+        exit(1);
+    }
+    stack[++top] = element;
+}
+
+int pop() {
+    if (top == -1) {
+        printf("Stack underflow,aborting..");
+        exit(1);
+    }
+    return stack[top--];
+}
+
+int is_empty() {
+    return (top == -1);
+}
+
+void zamjena(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+int nadji_pivot(int arr[], int dg, int gg) {
+    int pivot = arr[gg];
+    int i = dg - 1;
+    for (int j = dg; j <= gg - 1; j++) {
+        if (arr[j] <= pivot) {
+            i++;
+            zamjena(&arr[i], &arr[j]);
+        }
+    }
+    zamjena(&arr[i + 1], &arr[gg]);
+    return (i + 1);
+}
+
+void quicksort(int arr[], int dg, int gg) {
+    push(dg);
+    push(gg);
+    while (!is_empty()) {
+        gg = pop();
+        dg = pop();
+        int pivot = nadji_pivot(arr, dg, gg);
+        if (pivot - 1 > dg) {
+            push(dg);
+            push(pivot - 1);
+        }
+        if (pivot + 1 < gg) {
+            push(pivot + 1);
+            push(gg);
+        }
+    }
+}
+
+int main() {
+    int V[] = { 12, 13, 4, 7, 11, 19, 6, 3 };
+    for (int i = 0; i < sizeof(V) / sizeof(int); i++) {
+        printf("%d ", V[i]);
+    }
+    printf("\n");
+    int dg = 0;
+    int gg = sizeof(V) / sizeof(int) - 1;
+    quicksort(V, dg, gg);
+    for (int i = 0; i < sizeof(V) / sizeof(int); i++) {
+        printf("%d ", V[i]);
+    }
+    return 0;
+}
