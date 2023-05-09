@@ -1,0 +1,28 @@
+#include <stdio.h>
+
+void zamjeni(int *a,int *b){
+    int temp=*a;
+    *a = *b;
+    *b=temp;
+}
+
+int main()
+{
+    int polje[]={10,18,8,15,24,345,3424,5,23};
+    
+    for(int i=0;i<(sizeof(polje)/sizeof(int))-1;i++){
+        for(int j=i+1;j<sizeof(polje)/sizeof(int);j++){
+            if(polje[i]>polje[j]){
+            zamjeni(&polje[i],&polje[j]);
+        }
+        
+        }
+        
+    }
+
+    for(int i=0;i<sizeof(polje)/sizeof(int);i++){
+        printf("%d ",polje[i]);
+    }
+    
+    return 0;
+}
